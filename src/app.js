@@ -69,8 +69,16 @@ app.post('/api/customers',async(req,res)=>{
 	});
 
 app.get('/api/customers/:id', async(req,res)=>{
-	res.json({requestParams: req.params
-	});
+	console.log(({
+		requestParams: req.params,
+		requestQuery: req.query
+		 	}));
+	const {id: customerId}= req.params
+	console.log('customer id is', customerId);
+	const customer= await Customer.findById(customerId);
+	console.log(customer);
+	res.json({customer})
+
 });
 
 const start= async()=>{
