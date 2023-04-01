@@ -33,26 +33,26 @@ const customers=[
 	}];
 	
 const customer = new Customer({	
-	name:'Rio',
-	industry :'bird'
+	name:'Sandra',
+	industry :'Actress'
 });
 
 
 
 
 app.get('/',(req,res)=>{
-	res.send('customer');
+	res.json("Welcome");
 	
 });	
 app.get('/api/customers',async(req,res)=>{
-	console.log(await mongoose.connection.db.listCollections().toArray());
+	
 	try{const result = await Customer.find();
 	res.json({"customers": result});}
 	catch(e){
 		res.status(500).json({error:e.message})
 	}
 	
-})
+});
 
 
 app.post('/api/customers',async(req,res)=>{
@@ -61,12 +61,17 @@ app.post('/api/customers',async(req,res)=>{
 	
 	try{
 		await customer.save();
-		res.status(201).json({customer:customer});}
-	catch(e){
+		res.status(201).json({customer});}
+	catch(e){ 
 		res.status(400).json({error:e.message})
 
 	}
 	});
+
+app.get('/api/customers/:id', async(req,res)=>{
+	res.json({requestParams: req.params
+	});
+});
 
 const start= async()=>{
 	try{
