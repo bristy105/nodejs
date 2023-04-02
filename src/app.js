@@ -92,6 +92,15 @@ app.get('/api/customers/:id', async(req,res)=>{
 }
 });
 
+//updating customer
+
+app.put('/api/customers/:id',async(req,res)=>{
+	const {customerId}= req.params
+	const result=await Customer.replaceOne({id: customerId},req.body);
+	console.log(result);
+	res.json({updateCount: result.modifiedCount})
+})
+
 const start= async()=>{
 	try{
 			await mongoose.connect(CONNECTION);
