@@ -95,10 +95,30 @@ app.get('/api/customers/:id', async(req,res)=>{
 //updating customer
 
 app.put('/api/customers/:id',async(req,res)=>{
-	const {customerId}= req.params
-	const result=await Customer.replaceOne({id: customerId},req.body);
-	console.log(result);
-	res.json({updateCount: result.modifiedCount})
+	try{
+
+		const {customerId}= req.params
+	    const result=await Customer.replaceOne({id: customerId},req.body);
+	    console.log(result);
+	    res.json({updateCount: result.modifiedCount})
+	}
+	catch(e){
+		res.status(500).json({error:e.message})
+	}
+	
+})
+
+app.delete('/api/customers/:id', async(req,res)=>{
+	try{
+		const {customerId}=req.params
+		const result= await Customer.deleteOne({id:customerId});
+		console.log(result);
+		res.json({deletedCount:result.deletedCount})
+
+	}
+	catch(e){
+		res.status(500).json({error: 'canot be deleted'})
+	}
 })
 
 const start= async()=>{
